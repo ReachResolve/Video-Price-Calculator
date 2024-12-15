@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Price Calculator</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000103; /* Dark background */
+            color: #4D6FF7; /* Accent color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container for the Calculator */
+        .calculator-container {
+            background: #060D1F; /* Darker container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .calculator-container h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #4D6FF7; /* Bright blue */
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #95abd8; /* Subtle label color */
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #1E2637;
+            background-color: #030712; /* Input background */
+            color: #fff;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4D6FF7;
+        }
+
+        /* Rate and Currency Group Styling */
+        .rate-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .rate-group input {
+            flex: 3;
+            padding: 8px;
+            border: 1px solid #1E2637;
+            background-color: #030712;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .rate-group select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #1E2637;
+            background-color: #030712;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Button Styling */
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #1E2637;
+            color: #4D6FF7;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #4D6FF7;
+            color: #fff;
+        }
+
+        /* Result Display */
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #4D6FF7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Calculator Container -->
+    <div class="calculator-container">
+        <h1>Video Price Calculator</h1>
+
+        <!-- Rate and Currency Input -->
+        <div class="form-group">
+            <label for="rate">Rate per Minute:</label>
+            <div class="rate-group">
+                <input type="number" id="rate" placeholder="Enter rate" />
+                <select id="currency">
+                    <option value="USD">USD</option>
+                    <option value="INR">INR</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Video Length in Minutes -->
+        <div class="form-group">
+            <label for="minutes">Video Length (Minutes):</label>
+            <input type="number" id="minutes" placeholder="Enter minutes" />
+        </div>
+
+        <!-- Video Length in Seconds -->
+        <div class="form-group">
+            <label for="seconds">Video Length (Seconds):</label>
+            <input type="number" id="seconds" placeholder="Enter seconds" />
+        </div>
+
+        <!-- Calculate Button -->
+        <button class="btn" onclick="calculatePrice()">Calculate</button>
+
+        <!-- Result Display -->
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+// Exchange Rates (1 INR = exchange rate in the target currency)
+const exchangeRates = {
+    INR: 1,        // INR as the base currency
+    USD: 83.2,     // 1 USD = 83.2 INR
+};
+
+function calculatePrice() {
+    // Get input values
+    const rate = parseFloat(document.getElementById('rate').value); // Rate per minute (in selected currency)
+    const minutes = parseInt(document.getElementById('minutes').value) || 0;  // Default to 0 if empty
+    const seconds = parseInt(document.getElementById('seconds').value) || 0;  // Default to 0 if empty
+    const currency = document.getElementById('currency').value; // Selected currency
+
+    // Validate inputs
+    if (isNaN(rate) || rate <= 0) {
+        document.getElementById('result').textContent = 'Please enter a valid rate.';
+        return;
+    }
+
+    // Convert seconds to decimal minutes
+    const decimalMinutes = seconds / 60;
+
+    // Calculate total minutes (add minutes and decimal minutes)
+    const totalMinutes = minutes + decimalMinutes;
+
+    let totalPrice;
+
+    // If currency is INR, multiply directly by the rate
+    if (currency === "INR") {
+        totalPrice = totalMinutes * rate; // Directly multiply for INR
+    } else if (currency === "USD") {
+        // If currency is USD, multiply by the rate
+        totalPrice = totalMinutes * rate; // No need to convert as rate is in USD
+    }
+
+    // Display the result
+    document.getElementById('result').textContent = `The total cost for the video is: ${totalPrice.toFixed(2)} ${currency}`;
+}
+
+
+
+    </script>
+</body>
+</html>
