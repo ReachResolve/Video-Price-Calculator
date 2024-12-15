@@ -5,195 +5,300 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Price Calculator</title>
     <style>
-        /* General Page Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000103; /* Dark background */
-            color: #4D6FF7; /* Accent color */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000103; /* Dark background */
+    color: #4D6FF7; /* Accent color */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
 
-        /* Container for the Calculator */
-        .calculator-container {
-            background: #060D1F; /* Darker container background */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 400px;
-        }
+.container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 10px;
+}
 
-        .calculator-container h1 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #4D6FF7; /* Bright blue */
-        }
+.calculator-container, .monthly-container {
+    background: #060D1F;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+}
 
-        /* Form Styling */
-        .form-group {
-            margin-bottom: 15px;
-        }
+.calculator-container h1, .monthly-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #4D6FF7;
+}
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #95abd8; /* Subtle label color */
-        }
+.form-group {
+    margin-bottom: 15px;
+}
 
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #1E2637;
-            background-color: #030712; /* Input background */
-            color: #fff;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #95abd8;
+}
 
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #4D6FF7;
-        }
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #1E2637;
+    background-color: #030712;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1rem;
+}
 
-        /* Rate and Currency Group Styling */
-        .rate-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: #4D6FF7;
+}
 
-        .rate-group input {
-            flex: 3;
-            padding: 8px;
-            border: 1px solid #1E2637;
-            background-color: #030712;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
+.rate-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 
-        .rate-group select {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #1E2637;
-            background-color: #030712;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
+.rate-group input {
+    flex: 3;
+    padding: 8px;
+    border: 1px solid #1E2637;
+    background-color: #030712;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1rem;
+}
 
-        /* Button Styling */
-        .btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #1E2637;
-            color: #4D6FF7;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
+.rate-group select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #1E2637;
+    background-color: #030712;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
 
-        .btn:hover {
-            background-color: #4D6FF7;
-            color: #fff;
-        }
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #1E2637;
+    color: #4D6FF7;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
 
-        /* Result Display */
-        .result {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            text-align: center;
-            color: #4D6FF7;
-        }
+.btn:hover {
+    background-color: #4D6FF7;
+    color: #fff;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: #4D6FF7;
+}
+
+.monthly-container .result p {
+    margin: 5px 0;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px; /* Adjust font size for smaller screens */
+        height: auto;
+        padding: 10px;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .calculator-container, .monthly-container {
+        max-width: 100%;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .calculator-container h1, .monthly-container h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-group input, .form-group select {
+        font-size: 1rem; /* Adjust input font size */
+    }
+
+    .rate-group input, .rate-group select {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    .result {
+        font-size: 1rem;
+    }
+}
+
+
     </style>
 </head>
 <body>
-    <!-- Calculator Container -->
-    <div class="calculator-container">
-        <h1>Video Price Calculator</h1>
-
-        <!-- Rate and Currency Input -->
-        <div class="form-group">
-            <label for="rate">Rate per Minute:</label>
-            <div class="rate-group">
-                <input type="number" id="rate" placeholder="Enter rate" />
-                <select id="currency">
-                    <option value="USD">USD</option>
-                    <option value="INR">INR</option>
-                </select>
+    <div class="container">
+        <div class="calculator-container">
+            <h1>Video Price Calculator</h1>
+            <div class="form-group">
+                <label for="rate">Rate per Minute:</label>
+                <div class="rate-group">
+                    <input type="number" id="rate" placeholder="Enter rate" />
+                    <select id="currency">
+                        <option value="USD">USD</option>
+                        <option value="INR">INR</option>
+                    </select>
+                </div>
             </div>
+            <div class="form-group">
+                <label for="minutes">Video Length (Minutes):</label>
+                <input type="number" id="minutes" placeholder="Enter minutes" />
+            </div>
+            <div class="form-group">
+                <label for="seconds">Video Length (Seconds):</label>
+                <input type="number" id="seconds" placeholder="Enter seconds" />
+            </div>
+            <!-- Keep only one Calculate button -->
+<button class="btn" id="calculateButton">Calculate</button>
+
+            <div class="result" id="result"></div>
         </div>
 
-        <!-- Video Length in Minutes -->
-        <div class="form-group">
-            <label for="minutes">Video Length (Minutes):</label>
-            <input type="number" id="minutes" placeholder="Enter minutes" />
+        <div class="monthly-container">
+            <h2>Monthly Revenue & Profit Calculator</h2>
+            <div class="form-group">
+                <label for="videosPerMonth">Number of Videos Per Month:</label>
+                <input type="number" id="videosPerMonth" placeholder="Enter number of videos" />
+            </div>
+            <div class="form-group">
+                <label for="editorRate">Editor Rate Per Minute (INR):</label>
+                <input type="number" id="editorRate" placeholder="Enter editor rate per minute" />
+            </div>
+            <div class="result" id="monthlyResult"></div>
         </div>
-
-        <!-- Video Length in Seconds -->
-        <div class="form-group">
-            <label for="seconds">Video Length (Seconds):</label>
-            <input type="number" id="seconds" placeholder="Enter seconds" />
-        </div>
-
-        <!-- Calculate Button -->
-        <button class="btn" onclick="calculatePrice()">Calculate</button>
-
-        <!-- Result Display -->
-        <div class="result" id="result"></div>
     </div>
 
     <script>
-// Exchange Rates (1 INR = exchange rate in the target currency)
 const exchangeRates = {
-    INR: 1,        // INR as the base currency
-    USD: 83.2,     // 1 USD = 83.2 INR
+    INR: 1,       
+    USD: 83.2,    
 };
 
-function calculatePrice() {
-    // Get input values
-    const rate = parseFloat(document.getElementById('rate').value); // Rate per minute (in selected currency)
-    const minutes = parseInt(document.getElementById('minutes').value) || 0;  // Default to 0 if empty
-    const seconds = parseInt(document.getElementById('seconds').value) || 0;  // Default to 0 if empty
-    const currency = document.getElementById('currency').value; // Selected currency
+function updateBothCalculators() {
+    calculatePrice();
+    calculateMonthlyRevenue();
+}
 
-    // Validate inputs
+function calculatePrice() {
+    const rate = parseFloat(document.getElementById('rate').value);
+    const minutes = parseInt(document.getElementById('minutes').value) || 0;
+    const seconds = parseInt(document.getElementById('seconds').value) || 0;
+    const currency = document.getElementById('currency').value;
+
     if (isNaN(rate) || rate <= 0) {
         document.getElementById('result').textContent = 'Please enter a valid rate.';
         return;
     }
 
-    // Convert seconds to decimal minutes
     const decimalMinutes = seconds / 60;
-
-    // Calculate total minutes (add minutes and decimal minutes)
     const totalMinutes = minutes + decimalMinutes;
-
     let totalPrice;
 
-    // If currency is INR, multiply directly by the rate
     if (currency === "INR") {
-        totalPrice = totalMinutes * rate; // Directly multiply for INR
+        totalPrice = totalMinutes * rate;
     } else if (currency === "USD") {
-        // If currency is USD, multiply by the rate
-        totalPrice = totalMinutes * rate; // No need to convert as rate is in USD
+        totalPrice = totalMinutes * rate * exchangeRates[currency];
     }
 
-    // Display the result
-    document.getElementById('result').textContent = `The total cost for the video is: ${totalPrice.toFixed(2)} ${currency}`;
+    document.getElementById('result').textContent = `The total cost for the video is: ${totalPrice.toFixed(2)} INR (USD ${(totalPrice.toFixed(2) / exchangeRates[currency]).toFixed(2)})`;
 }
 
+function calculateMonthlyRevenue() {
+    const rate = parseFloat(document.getElementById('rate').value); // Client rate per minute
+    const videosPerMonth = parseInt(document.getElementById('videosPerMonth').value) || 0; // Videos per month
+    const editorRate = parseFloat(document.getElementById('editorRate').value) || 0; // Editor rate per minute
+    const minutes = parseInt(document.getElementById('minutes').value) || 0; // Video length in minutes
+    const seconds = parseInt(document.getElementById('seconds').value) || 0; // Video length in seconds
 
+    // Validate inputs
+    if (isNaN(rate) || rate <= 0 || isNaN(editorRate) || editorRate <= 0) {
+        document.getElementById('monthlyResult').textContent = 'Please enter valid rates.';
+        return;
+    }
 
+    // Convert seconds to decimal minutes
+    const decimalMinutes = seconds / 60;
+    const totalMinutes = minutes + decimalMinutes;
+
+    // Total price per video (in USD)
+    let totalPricePerVideo = rate * totalMinutes;
+    if (rate === "USD") {
+        totalPricePerVideo *= exchangeRates['USD']; // If USD, multiply by exchange rate to INR
+    }
+    totalPricePerVideo = totalPricePerVideo.toFixed(2);
+
+    // Editor cost per video (INR)
+    const editorCostPerVideo = editorRate * totalMinutes;
+
+    // Monthly Revenue in USD
+    const monthlyRevenueUSD = totalPricePerVideo * videosPerMonth; // Monthly revenue in USD (no conversion needed)
+
+    // Monthly Revenue in INR (converted from USD)
+    const monthlyRevenueINR = monthlyRevenueUSD * exchangeRates['USD']; // Convert USD to INR
+
+    // Calculate total editor cost per month (Editor rate * video length * number of videos)
+    const totalEditorCostPerMonth = editorRate * totalMinutes * videosPerMonth;
+
+    // Monthly Profit Calculation (Monthly Revenue in INR - Total Editor Cost in INR)
+    const monthlyProfit = (monthlyRevenueINR - totalEditorCostPerMonth).toFixed(2);
+
+    // Display the results
+    document.getElementById('monthlyResult').innerHTML = `
+        <p>Monthly Revenue: ${monthlyRevenueINR.toFixed(2)} INR (USD ${monthlyRevenueUSD.toFixed(2)})</p>
+        <p>Monthly Profit: ${monthlyProfit} INR</p>
+        <p>Editor Payment per Video: ${editorCostPerVideo.toFixed(2)} INR</p>
+        <p>Editor Payment per Month: ${totalEditorCostPerMonth.toFixed(2)} INR</p>
+    `;
+}
+
+// Example: when a button is clicked
+document.getElementById('calculateButton').addEventListener('click', updateBothCalculators);
+    
     </script>
 </body>
 </html>
